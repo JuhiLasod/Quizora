@@ -23,9 +23,9 @@ class UserPageState extends State<UserPage>
 {
   String msg='';
   Future<void> adduser(String user)async{
-    final res=await http.post(Uri.parse("http://10.0.2.2:8000/users"),
+    final res=await http.post(Uri.parse("http://10.0.2.2:8000/set-quiz"),
       headers: {'Content-Type':'application/json'},
-      body:jsonEncode({'name': user})
+      body:jsonEncode({})
     );
     setState(() {
       msg=res.body;
