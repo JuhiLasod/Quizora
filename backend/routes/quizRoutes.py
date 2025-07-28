@@ -5,5 +5,6 @@ from controllers import setQuiz
 router=APIRouter()
 
 @router.post("/set-quiz")
-def add_ques():
-    return setQuiz.add_ques()
+def add_ques(quiz: Quizes):
+    print("reachef to routes")
+    return setQuiz.add_ques(quiz)

@@ -7,4 +7,4 @@ class question(BaseModel):
     ans: str
 class Quizes(BaseModel):
     title: str
-    Questions: List[question]
+    Questions: List[question] 

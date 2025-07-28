@@ -1,5 +1,7 @@
 from fastapi import FastAPI
-from routes import quizRoutes
+# from routes import quizRoutes
+from routes.quizRoutes import router as quiz_router
 
 app=FastAPI()
-app.include_router(quizRoutes.router)
+print("reachef to main")
+app.include_router(quiz_router)
