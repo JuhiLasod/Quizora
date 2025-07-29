@@ -33,7 +33,7 @@ class _createQuizState extends State<CreateQuiz>
     print(op3);
     print(op4);
     print(ans);
-    final res=await http.post(Uri.parse('http://10.0.2.2/set-quiz'),
+    final res=await http.post(Uri.parse('http://10.0.2.2:8000/quiz/set-quiz'),
       headers: {'Content-type':'application/json'},
       body:json.encode({
         'title':title,
@@ -46,6 +46,7 @@ class _createQuizState extends State<CreateQuiz>
         ]
         })
     );
+    print("sent");
     print(res.body);
   }
   @override
