@@ -1,146 +1,182 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import "./home.dart";
 
-class CreateQuiz extends StatefulWidget{
-  @override 
+class CreateQuiz extends StatefulWidget {
   const CreateQuiz({super.key});
-  State<CreateQuiz> createState()=> _createQuizState();
+  @override
+  State<CreateQuiz> createState() => _CreateQuizState();
 }
 
-class _createQuizState extends State<CreateQuiz>
-{
-  bool showWidget=false;
-  String title="";
-  String ques="";
-  String op1="";
-  String op2="";
-  String op3="";
-  String op4="";
-  String ans="";
-  TextEditingController _titlec=new TextEditingController();
-  TextEditingController _quesc=new TextEditingController();
-  TextEditingController _op1c=new TextEditingController();
-  TextEditingController _op2c=new TextEditingController();
-  TextEditingController _op3c=new TextEditingController();
-  TextEditingController _op4c=new TextEditingController();
-  TextEditingController _ansc=new TextEditingController();
-  List<Map<String,dynamic>> questions=[];
+class _CreateQuizState extends State<CreateQuiz> {
+  String title = "";
+  TextEditingController _titlec = TextEditingController();
 
-  void setQues() {
-  Map<String, dynamic> quesObj = {
-    "ques": ques,
-    "options": [op1, op2, op3, op4],
-    "ans": ans
-  };
-  setState(() {
-    questions.add(quesObj);
-  });
-}
-  void setQuiz()async{
-    print(questions);
+  // List of all questions added so far
+  List<Map<String, dynamic>> questions = [];
 
-    final res=await http.post(Uri.parse('http://10.0.2.2:8000/quiz/set-quiz'),
-      headers: {'Content-type':'application/json'},
-      body:json.encode({
-        'title':title,
-        'Questions':questions
-      })
+  // List of question form controllers
+  List<QuestionForm> questionForms = [];
+
+  void setQuiz() async {
+    if (title.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please fill title of the quiz")),
+      );
+      return;
+    }
+    final res = await http.post(
+      Uri.parse('http://10.0.2.2:8000/quiz/set-quiz'),
+      headers: {'Content-type': 'application/json'},
+      body: json.encode({
+        'title': title,
+        'Questions': questions,
+      }),
     );
-    print("sent");
-    print(res.body);
+    print(res.statusCode);
+    if(res.statusCode==200)
+    {
+      print("Quiz sent");
+      print(res.body);
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+    }
+    
+  }
+
+  void addNewQuestionForm() {
     setState(() {
-      // title="";
-      ques="";
-      op1="";
-      op2="";
-      op3="";
-      op4="";
-      ans="";
+      questionForms.add(QuestionForm(
+        key: UniqueKey(),
+        onSave: (quesObj) {
+          questions.add(quesObj);
+        },
+      ));
     });
   }
+
   @override
-  Widget build (BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(padding:EdgeInsets.all(40),
-        child: Column(
-          children:[ 
-            ElevatedButton(onPressed: (){setQuiz();}, child: Text("set quiz")),
-            Padding(padding:EdgeInsets.all(40),child: ElevatedButton(onPressed: (){setState(() {
-            showWidget=true;
-          });}, 
-          child: Text("add ques"))
-          ),
-          TextField(
+      appBar: AppBar(title: Text("Create Quiz")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView(
+          children: [
+            TextField(
               controller: _titlec,
-              onChanged: (value){setState(() {
-                title=value;
+              decoration: InputDecoration(labelText: "Quiz Title"),
+              onChanged: (value) {
+                setState(() {
+                  title = value;
                 });
               },
             ),
-          if(showWidget)quesFormat()
-        ]),
-      )
+            const SizedBox(height: 20),
+            ElevatedButton(onPressed: setQuiz, child: Text("Submit Quiz")),
+            const SizedBox(height: 10),
+            ElevatedButton(onPressed: addNewQuestionForm, child: Text("Add Question")),
+            const SizedBox(height: 20),
+            ...questionForms,
+          ],
+        ),
+      ),
     );
   }
-  Widget quesFormat(){
-    return Padding(padding: EdgeInsets.all(30),
-        child: Column(children: [
-          // TextField(
-          //   controller: _titlec,
-          //   onChanged: (value){setState(() {
-          //     title=value;
-          //     });
-          //   },
-          // ),
-          TextField(
-            controller: _quesc,
-            onChanged: (value){setState(() {
-              ques=value;
-              });
-            },
-          ),
-          TextField(
-            controller: _op1c,
-            onChanged: (value){setState(() {
-              op1=value;
-              });
-            },
-          ),
-          TextField(
-            controller: _op2c,
-            onChanged: (value){setState(() {
-              op2=value;
-              });
-            },
-          ),
-          TextField(
-            controller: _op3c,
-            onChanged: (value){setState(() {
-              op3=value;
-              });
-            },
-          ),
-          TextField(
-            controller: _op4c,
-            onChanged: (value){setState(() {
-              op4=value;
-              });
-            },
-          ),
-          TextField(
-            controller: _ansc,
-            onChanged: (value){setState(() {
-              ans=value;
-              });
-            },
-          ),
-          
-          ElevatedButton(onPressed: (){setQues();_quesc.clear(); _op1c.clear(); _op2c.clear();
-    _op3c.clear(); _op4c.clear(); _ansc.clear();}, child: Text("set ques"))
-        ],)
-      
+}
+
+
+class QuestionForm extends StatefulWidget {
+  final Function(Map<String, dynamic>) onSave;
+
+  const QuestionForm({super.key, required this.onSave});
+
+  @override
+  State<QuestionForm> createState() => _QuestionFormState();
+}
+
+class _QuestionFormState extends State<QuestionForm> {
+  final TextEditingController _quesC = TextEditingController();
+  final List<TextEditingController> _optionCs =
+      List.generate(4, (_) => TextEditingController());
+
+  int? _correctIndex;
+
+  void saveQuestion() {
+    final options = _optionCs.map((c) => c.text).toList();
+    final question = _quesC.text;
+
+    if (question.trim().isEmpty ||
+        options.any((o) => o.trim().isEmpty) ||
+        _correctIndex == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please fill all fields & select correct option")),
+      );
+      return;
+    }
+
+    widget.onSave({
+      "ques": question,
+      "options": options,
+      "ans": options[_correctIndex!],
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Question Added")),
+    );
+
+    setState(() {
+      _quesC.clear();
+      for (var c in _optionCs) c.clear();
+      _correctIndex = null;
+    });
+  }
+
+  @override
+  void dispose() {
+    _quesC.dispose();
+    for (var c in _optionCs) {
+      c.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.grey[100],
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _quesC,
+              decoration: InputDecoration(labelText: "Question"),
+            ),
+            const SizedBox(height: 10),
+            ...List.generate(4, (i) {
+              return ListTile(
+                title: TextField(
+                  controller: _optionCs[i],
+                  decoration: InputDecoration(labelText: "Option ${i + 1}"),
+                ),
+                leading: Radio<int>(
+                  value: i,
+                  groupValue: _correctIndex,
+                  onChanged: (value) {
+                    setState(() {
+                      _correctIndex = value;
+                    });
+                  },
+                ),
+              );
+            }),
+            SizedBox(height: 10),
+            ElevatedButton(onPressed: saveQuestion, child: Text("Save Question")),
+          ],
+        ),
+      ),
     );
   }
 }
