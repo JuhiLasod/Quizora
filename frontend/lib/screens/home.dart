@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'CreateQuiz.dart';
+import 'QuizDisplay.dart';
 
 class Home extends StatefulWidget{
   const Home({super.key});
@@ -29,8 +30,13 @@ class _homeState extends State<Home>
         backgroundColor: Colors.black,
         body: show?
         
-          Padding(padding: EdgeInsets.all(40),
-            child: ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateQuiz()));},child:Text("create quiz")))
+          Column(
+            children: [
+              Padding(padding: EdgeInsets.all(40),
+                child: ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateQuiz()));},child:Text("create quiz"))
+              ),
+              ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> QuizDisplay()));}, child: Text("Attempt Quiz"))
+          ])
         
     //       child:Text("create quiz"))
         :Center(
