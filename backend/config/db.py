@@ -7,3 +7,4 @@ load_dotenv()
 client= MongoClient(os.getenv("MONGO_URI"))
 db=client["Quizora"]
 QuizesColl=db["Quizes"]
+ScoreColl=db["Scores"]

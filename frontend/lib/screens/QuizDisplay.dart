@@ -11,6 +11,7 @@ class QuizDisplay extends StatefulWidget{
 
 class _QuizDisplayState extends State<QuizDisplay>
 {
+  bool loading=true;
   List<String> quizes=[];
   void fetchQuizes()async{
     
@@ -22,6 +23,7 @@ class _QuizDisplayState extends State<QuizDisplay>
   final data = jsonDecode(res.body); // This is a Map
   setState(() {
     quizes = List<String>.from(data['titles']);
+    loading=false;
   });
   
   print(quizes);
@@ -37,12 +39,12 @@ class _QuizDisplayState extends State<QuizDisplay>
   }
   Widget build(BuildContext context){
     return Scaffold(
-      body: ListView.builder(
+      body: loading ? Center(child: CircularProgressIndicator()): ListView.builder(
         itemCount: quizes.length,
         itemBuilder: (context, index) => 
           ListTile(
             title: GestureDetector(
-              onTap:(){ Navigator.push(context, MaterialPageRoute(builder: (context)=> StartQuiz()));},
+              onTap:(){ Navigator.push(context, MaterialPageRoute(builder: (context)=> StartQuiz(title: quizes[index])));},
               child: Text(quizes[index])
             ),
           )
