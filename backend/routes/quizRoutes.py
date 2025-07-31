@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from models.Quizes import Quizes
 from controllers import setQuiz
 from controllers import fetchQuizes
+from controllers import fetchQues
 
 router=APIRouter()
 
@@ -14,3 +15,7 @@ def add_ques(quiz: Quizes):
 @router.get("/fetch-quizes")
 def fetch_quizes():
     return fetchQuizes.fetch_quizes()
+
+@router.get("/fetch-ques")
+def fetch_ques(title: str):
+    return fetchQues.fetch_ques(title)
