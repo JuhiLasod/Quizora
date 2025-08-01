@@ -22,14 +22,16 @@ class _StartQuizState extends State<StartQuiz>
            Text("enter your name"),
            TextField(
             controller: namec,
-            onChanged: (value) => (){
+            onChanged: (value) {
               setState(() {
-                name=namec.text;
+                name= value;
+                print('okayyy');
               });
             },
           ),
            ElevatedButton(
             onPressed: (){
+              print("name");
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>FillQuiz(title: widget.title,name: name)));
             }, 
             child: Text("start now"))
