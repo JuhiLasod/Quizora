@@ -1,8 +1,10 @@
 from fastapi import APIRouter
 from models.Quizes import Quizes
+from models.Scores import Scores
 from controllers import setQuiz
 from controllers import fetchQuizes
 from controllers import fetchQues
+from controllers import scores
 
 router=APIRouter()
 
@@ -19,3 +21,7 @@ def fetch_quizes():
 @router.get("/fetch-ques")
 def fetch_ques(title: str):
     return fetchQues.fetch_ques(title)
+
+@router.post("/set-score")
+def set_score(score: Scores):
+    return scores.set_score(score)
