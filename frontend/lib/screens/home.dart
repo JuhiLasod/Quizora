@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+// import 'package:animated_text_kit/animated_text_kit.dart';
 import 'CreateQuiz.dart';
 import 'QuizDisplay.dart';
 
@@ -10,61 +10,76 @@ class Home extends StatefulWidget{
 }
 class _homeState extends State<Home>
 {
-  bool show=false;
+  // bool show=false;
 
   void initState() {
     super.initState();
 
-    // Wait for 2 seconds (or the length of your animation), then show the button
-    Future.delayed(const Duration(seconds: 5), () {
-      setState(() {
-        show = true;
-      });
-    });
   }
   @override
   Widget build (BuildContext context)
   {
+    final screenHeight= MediaQuery.of(context).size.height;
     
     return Scaffold(
-        backgroundColor: Colors.black,
-        body: show?
+      
+        backgroundColor: const Color.fromARGB(255, 250, 255, 221),
+        body: 
         
-          Column(
-            children: [
-              Padding(padding: EdgeInsets.all(40),
-                child: ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateQuiz()));},child:Text("create quiz"))
-              ),
-              ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> QuizDisplay()));}, child: Text("Attempt Quiz"))
-          ])
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(padding: EdgeInsets.all(40),
+                  child: ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> CreateQuiz()));},child:Text("create quiz"))
+                ),
+                Text("Quizora",style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 28, 91, 46),fontSize: 70, fontFamily: 'title'),),
+                Container(child: Image.asset('assets/images/logo.png')),
+                ElevatedButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> QuizDisplay()));}, child: Text("Attempt Quiz"))
+            ]),
+          )
         
     //       child:Text("create quiz"))
-        :Center(
-          child: DefaultTextStyle(
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 52.0,
-              fontFamily: 'title',
-              color: Colors.white,
-            ),
-            child: AnimatedTextKit(
-              animatedTexts: [
-                TyperAnimatedText(
-                  'Quizora',
-                  speed: const Duration(milliseconds: 400),
-                ),
-              ],
-              isRepeatingAnimation: false,
-              onFinished: (){
-                setState(() {
-                  show=true;
-                });
-              },
-            ),
-          ),
-          
-          
-        ),
+        // :Center(
+        //   child: Column(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children:[
+            
+        //     Padding(padding: EdgeInsets.all(50),
+        //       child: Container(
+        //         height: screenHeight * 0.1,
+        //         child: Image.asset('assets/images/logo.png')
+        //       ),
+        //     ),
+        //     DefaultTextStyle(
+        //     style: const TextStyle(
+        //       fontWeight: FontWeight.bold,
+        //       fontSize: 52.0,
+        //       fontFamily: 'title',
+        //       color: Color.fromARGB(255, 28, 91, 46)
+        //     ),
+        //     child: AnimatedTextKit(
+        //       animatedTexts: [
+        //         TyperAnimatedText(
+        //           'Quizora',
+                  
+        //           speed: const Duration(milliseconds: 600),
+        //         ),
+        //       ],
+        //       isRepeatingAnimation: false,
+        //       onFinished: ()async{
+        //         await Future.delayed(Duration(seconds: 3));
+        //         setState(() {
+        //           show=true;
+        //         });
+        //       },
+        //     ),
+        //   ),
+          // ])
+          // 
+        // ),
         
       
     );
