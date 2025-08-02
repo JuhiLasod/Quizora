@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import "./home.dart";
+import "Home.dart";
 
 class CreateQuiz extends StatefulWidget {
   const CreateQuiz({super.key});
