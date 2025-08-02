@@ -13,17 +13,49 @@ class FillQuiz extends StatefulWidget {
 
 class _FillQuizState extends State<FillQuiz> {
   Map<String, dynamic> data = {"Questions": []};
-  Map<int, String> selectedOptions = {}; // index -> selected option
-
+  final correctAnswers = <int, String>{};
+  Map <int,String> answer={};
+  Map<int, String> selectedOptions = {}; 
+  int score=0;
+  // List <String> asnwer=[];
   void fetchQues() async {
+    setState(() {
+      score=0;
+    });
     final res = await http.get(
       Uri.parse('http://10.0.2.2:8000/quiz/fetch-ques?title=${widget.title}'),
       headers: {'Content-Type': 'application/json'},
     );
-    setState(() {
-      data = json.decode(res.body);
-    });
+    
+    final decoded = json.decode(res.body);
+  
+  // Collect correct answers
+  
+  final questions = decoded['Questions'];
+  for (int i = 0; i < questions.length; i++) {
+    correctAnswers[i] = questions[i]['ans'];
+    print(correctAnswers[i]);
   }
+
+  setState(() {
+    data = decoded;
+    answer = correctAnswers;
+  });
+}
+
+void scoring()async{
+  for(int i=0;i<correctAnswers.length;i++)
+  {
+    // print("correct ans is ${correctAnswers[i]}");
+    // print("selected ans is ${selectedOptions[i]}");
+    if(correctAnswers[i]==selectedOptions[i])
+    {
+      score++;
+    }
+  }
+  print(score);
+  
+}
 
   @override
   void initState() {
@@ -46,8 +78,11 @@ class _FillQuizState extends State<FillQuiz> {
                 itemCount: data['Questions'].length,
                 itemBuilder: (context, index) {
                   final question = data['Questions'][index];
+                  // Map <int,String> answer={};
                   final options = question['options'] ?? [];
-
+                  // setState(() {
+                  //   answer[index]= (question['ans']);
+                  // });
                   return Card(
                     elevation: 2,
                     margin: const EdgeInsets.symmetric(vertical: 8),
@@ -82,9 +117,10 @@ class _FillQuizState extends State<FillQuiz> {
                 print("User Answers:");
                 selectedOptions.forEach((index, value) {
                   print("Q${index + 1}: $value");
+                  // print(answer);
                 });
               },
-              child: Text("Submit"),
+              child: ElevatedButton(onPressed: (){scoring();},child:Text("Submit")),
             ),
           ],
         ),
