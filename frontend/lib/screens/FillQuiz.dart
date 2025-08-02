@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'Score.dart';
 
 class FillQuiz extends StatefulWidget {
   final title;
@@ -46,14 +47,25 @@ class _FillQuizState extends State<FillQuiz> {
 void scoring()async{
   for(int i=0;i<correctAnswers.length;i++)
   {
-    // print("correct ans is ${correctAnswers[i]}");
-    // print("selected ans is ${selectedOptions[i]}");
     if(correctAnswers[i]==selectedOptions[i])
     {
       score++;
     }
   }
   print(score);
+  final res= await http.post(Uri.parse("http://10.0.2.2:8000/quiz/set-score"),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({'title': widget.title, 'name': widget.name, 'score': score})
+  );
+  if(res.statusCode==200)
+  {
+    print("score added");
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Score(score: score)));
+  }
+  else
+  {
+    print("error in adding score");
+  }
   
 }
 
@@ -114,14 +126,12 @@ void scoring()async{
             ),
             ElevatedButton(
               onPressed: () {
-                print("User Answers:");
-                selectedOptions.forEach((index, value) {
-                  print("Q${index + 1}: $value");
-                  // print(answer);
-                });
+                scoring();
+                
               },
-              child: ElevatedButton(onPressed: (){scoring();},child:Text("Submit")),
+              child: Text("Submit")
             ),
+
           ],
         ),
       ),
