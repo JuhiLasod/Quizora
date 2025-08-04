@@ -80,6 +80,12 @@ flutter:
     - family: title
       fonts:
         - asset: assets/fonts/GreatVibes-Regular.ttf
+    - family: basic
+      fonts:
+        - asset: assets/fonts/Oswald-Medium.ttf
+    - family: spaced
+      fonts:
+        - asset: assets/fonts/EduQLDHand-Medium.ttf
       # - asset: fonts/Schyler-Italic.ttf
   #   - family: Trajan Pro
   #     fonts:
