@@ -53,6 +53,7 @@ class _StartState extends State<Start>
               },
             ),
           ),
+          Padding(padding: EdgeInsets.all(30),child: Text("Quiz it. Crack it. Conquer it.",style:TextStyle(fontFamily: 'spaced', fontSize: 20,color: Color.fromARGB(255, 28, 91, 46))))
           ])
           
         ),
