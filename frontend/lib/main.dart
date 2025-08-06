@@ -11,6 +11,10 @@ class myApp extends StatelessWidget{
   Widget build(BuildContext context)
   {
     return MaterialApp(
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(cursorColor: Color.fromARGB(255, 28, 91, 46)),
+        inputDecorationTheme: InputDecorationTheme(focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 28, 91, 46),width:2)))),
+      
       home: Start()
     );
   }
