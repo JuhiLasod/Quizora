@@ -16,8 +16,10 @@ class _StartState extends State<Start>
     final screenHeight= MediaQuery.of(context).size.height;
 
     return Scaffold(
+      
       backgroundColor: const Color.fromARGB(255, 250, 255, 221),
-      body: Center(
+      body: 
+      Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

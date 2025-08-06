@@ -57,15 +57,30 @@ class _CreateQuizState extends State<CreateQuiz> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight= MediaQuery.of(context).size.height;
+    final screenWidth= MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("Create Quiz")),
+      backgroundColor: const Color.fromARGB(255, 250, 255, 221),
+      appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 250, 255, 221),
+          title: Container(
+            width: screenWidth *0.9, height: screenHeight*0.45,
+          // color: const Color.fromARGB(255, 240, 250, 183),
+            child: Row(children: [
+              Text("Create Quiz",style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 28, 91, 46),fontSize: 45, fontFamily: 'title'),),
+              Spacer(),
+              GestureDetector(onTap: (){}, child: Image.asset("assets/images/logo.png",width: screenWidth *0.15,))
+            ]),
+          ),
+          
+        ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.fromLTRB(screenWidth * 0.05,screenHeight * 0.05,screenWidth * 0.05 ,0),
         child: ListView(
           children: [
             TextField(
               controller: _titlec,
-              decoration: InputDecoration(labelText: "Quiz Title"),
+              decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
               onChanged: (value) {
                 setState(() {
                   title = value;
