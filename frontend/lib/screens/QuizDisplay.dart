@@ -35,17 +35,39 @@ class _QuizDisplayState extends State<QuizDisplay>
   @override 
   void initState()
   {
+    super.initState();
     fetchQuizes();
   }
   Widget build(BuildContext context){
+    final screenHeight= MediaQuery.of(context).size.height;
+    final screenWidth= MediaQuery.of(context).size.width;
     return Scaffold(
+      
+      backgroundColor: const Color.fromARGB(255, 250, 255, 221),
+      appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 250, 255, 221),
+          title: Container(
+            width: screenWidth *0.9, height: screenHeight*0.45,
+          // color: const Color.fromARGB(255, 240, 250, 183),
+            child: Row(children: [
+              Text("Available Quizes",style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 28, 91, 46),fontSize: 45, fontFamily: 'title'),),
+              Spacer(),
+              GestureDetector(onTap: (){}, child: Image.asset("assets/images/logo.png",width: screenWidth *0.15,))
+            ]),
+          ),
+          
+        ),
       body: loading ? Center(child: CircularProgressIndicator()): ListView.builder(
         itemCount: quizes.length,
         itemBuilder: (context, index) => 
           ListTile(
             title: GestureDetector(
               onTap:(){ Navigator.push(context, MaterialPageRoute(builder: (context)=> StartQuiz(title: quizes[index])));},
-              child: Text(quizes[index])
+              child: Container(
+                height: screenHeight *0.08,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color.fromARGB(255, 216, 248, 225),border: Border.all(color: Color.fromARGB(255, 2, 49, 15), )),
+                child:Center(child: Text(quizes[index] , style: TextStyle(fontFamily: 'basic', fontSize: 20),))
+              )
             ),
           )
         )
