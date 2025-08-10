@@ -12,7 +12,10 @@ class _StartQuizState extends State<StartQuiz>
   String name='';
   TextEditingController namec=TextEditingController();
   @override
-  
+  void initState(){
+    super.initState();
+    print(name);
+  }
   Widget build(BuildContext context)
   {
     final screenHeight=MediaQuery.of(context).size.height;
@@ -53,6 +56,11 @@ class _StartQuizState extends State<StartQuiz>
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),backgroundColor: Color.fromARGB(255, 28, 91, 46),),
                         onPressed: (){
+                          setState(() {
+                            name=namec.text;
+                          });
+                          print("printing name");
+                          print(name);
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> FillQuiz(title: widget.title,name: name)));
                         },
                         child:Text("Start now !", style: TextStyle(color: const Color.fromARGB(255, 250, 255, 221),fontFamily: 'basic', fontSize: 20))
