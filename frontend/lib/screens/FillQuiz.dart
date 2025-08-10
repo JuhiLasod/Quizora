@@ -20,6 +20,7 @@ class _FillQuizState extends State<FillQuiz> {
   int score=0;
   // List <String> asnwer=[];
   void fetchQues() async {
+    print(widget.name);
     setState(() {
       score=0;
     });
@@ -72,19 +73,35 @@ void scoring()async{
   @override
   void initState() {
     super.initState();
+    print(widget.name);
     fetchQues();
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight= MediaQuery.of(context).size.height;
+    final screenWidth= MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("Quiz: ${widget.title}")),
+      backgroundColor: const Color.fromARGB(255, 250, 255, 221),
+      appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 250, 255, 221),
+          title: Container(
+            width: screenWidth *0.9, height: screenHeight*0.45,
+          // color: const Color.fromARGB(255, 240, 250, 183),
+            child: Row(children: [
+              Text(widget.title,style: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 28, 91, 46),fontSize: 45, fontFamily: 'title'),),
+              Spacer(),
+              GestureDetector(onTap: (){}, child: Image.asset("assets/images/logo.png",width: screenWidth *0.15,))
+            ]),
+          ),
+          
+        ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            Text("Name: ${widget.name}", style: TextStyle(fontSize: 16)),
-            const SizedBox(height: 10),
+            // Text("Name: ${widget.name}", style: TextStyle(fontSize: 16)),
+            // const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: data['Questions'].length,
@@ -96,6 +113,7 @@ void scoring()async{
                   //   answer[index]= (question['ans']);
                   // });
                   return Card(
+                    color: const Color.fromARGB(255, 233, 254, 221),
                     elevation: 2,
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     child: Padding(
@@ -103,7 +121,7 @@ void scoring()async{
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Q${index + 1}: ${question['ques']}", style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text("Q${index + 1}: ${question['ques']}", style: TextStyle(color: const Color.fromARGB(255, 25, 94, 30),fontWeight: FontWeight.bold, fontSize: 18)),
                           const SizedBox(height: 10),
                           ...options.map<Widget>((opt) {
                             return RadioListTile(
@@ -115,6 +133,7 @@ void scoring()async{
                                   selectedOptions[index] = value.toString();
                                 });
                               },
+                              activeColor: const Color.fromARGB(255, 25, 94, 30),
                             );
                           }).toList(),
                         ],
@@ -124,13 +143,26 @@ void scoring()async{
                 },
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                scoring();
+            Padding(padding: EdgeInsets.fromLTRB(0,screenHeight * 0.01, 0, screenHeight * 0.01),
+                    child: Container(
+                      width : screenWidth * 0.8,
+                      height: screenHeight * 0.06,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),backgroundColor: Color.fromARGB(255, 28, 91, 46),),
+                        onPressed: (){
+                          scoring();
+                        },
+                        child:Text("Submit", style: TextStyle(color: const Color.fromARGB(255, 250, 255, 221),fontFamily: 'basic', fontSize: 20))
+                      ),
+                    ),
+                  ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     scoring();
                 
-              },
-              child: Text("Submit")
-            ),
+            //   },
+            //   child: Text("Submit")
+            // ),
 
           ],
         ),
