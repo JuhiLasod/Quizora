@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'Home.dart';
 class Score extends StatefulWidget
 {
   final dynamic score;
@@ -32,21 +32,39 @@ class _ScoreState extends State<Score>
         ),
         body: Padding(
           padding: EdgeInsets.all(20),
-          child: Container(
-            height: screenWidth * 0.3,
-            width: screenWidth * 0.9,
-            decoration: BoxDecoration(border: Border.all(width: 3,color: Color.fromARGB(255, 28, 91, 46),), borderRadius: BorderRadius.circular(12)),
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, screenHeight * 0.01),child: Text("Your Score", style: TextStyle(color: Color.fromARGB(255, 28, 91, 46),fontFamily: 'basic', fontSize: 20),)),
-                  Text("Your score is ${widget.score.toString()}")
-                ]
-              ),
-            )
-          ),
+          child: Column(
+            children: [Container(
+              height: screenWidth * 0.3,
+              width: screenWidth * 0.9,
+              decoration: BoxDecoration(border: Border.all(width: 3,color: Color.fromARGB(255, 28, 91, 46),), borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, screenHeight * 0.01),child: Text("Your Score", style: TextStyle(color: Color.fromARGB(255, 28, 91, 46),fontFamily: 'basic', fontSize: 20),)),
+                    Text("Your score is ${widget.score.toString()}"),
+                    
+            
+                  ]
+                ),
+              )
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(0,screenHeight * 0.01, 0, screenHeight * 0.01),
+                    child: Container(
+                      width : screenWidth * 0.9,
+                      height: screenHeight * 0.06,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),backgroundColor: Color.fromARGB(255, 28, 91, 46),),
+                        onPressed: (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Home()));
+
+                        },
+                        child:Text("Back to home", style: TextStyle(color: const Color.fromARGB(255, 250, 255, 221),fontFamily: 'basic', fontSize: 20))
+                      ),
+                    ),
+                  ),
+          ]),
         )
     );
   }
