@@ -45,7 +45,8 @@ class _FillQuizState extends State<FillQuiz> {
   });
 }
 
-void scoring()async{
+Future<void> scoring()async{
+  score=0;
   for(int i=0;i<correctAnswers.length;i++)
   {
     if(correctAnswers[i]==selectedOptions[i])
@@ -61,7 +62,7 @@ void scoring()async{
   if(res.statusCode==200)
   {
     print("score added");
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Score(score: score)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Score(title: widget.title, score: score)));
   }
   else
   {
@@ -100,8 +101,6 @@ void scoring()async{
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Text("Name: ${widget.name}", style: TextStyle(fontSize: 16)),
-            // const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: data['Questions'].length,
@@ -151,18 +150,13 @@ void scoring()async{
                         style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),backgroundColor: Color.fromARGB(255, 28, 91, 46),),
                         onPressed: (){
                           scoring();
+                          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Score(title: widget.title, score: score)));
                         },
                         child:Text("Submit", style: TextStyle(color: const Color.fromARGB(255, 250, 255, 221),fontFamily: 'basic', fontSize: 20))
                       ),
                     ),
                   ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     scoring();
-                
-            //   },
-            //   child: Text("Submit")
-            // ),
+            
 
           ],
         ),
