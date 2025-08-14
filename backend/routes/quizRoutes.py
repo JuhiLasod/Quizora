@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 from models.Quizes import Quizes
 from models.Scores import Scores
 from controllers import setQuiz
@@ -25,3 +25,7 @@ def fetch_ques(title: str):
 @router.post("/set-score")
 def set_score(score: Scores):
     return scores.set_score(score)
+
+@router.get("/fetch-total")
+def fetch_total(title:str):
+    return scores.fetch_total(title)

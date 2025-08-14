@@ -32,6 +32,7 @@ class _CreateQuizState extends State<CreateQuiz> {
       body: json.encode({
         'title': title,
         'Questions': questions,
+        "total": questions.length
       }),
     );
     print(res.statusCode);
@@ -158,6 +159,7 @@ class _QuestionFormState extends State<QuestionForm> {
       "ques": question,
       "options": options,
       "ans": options[_correctIndex!],
+      
     });
 
     ScaffoldMessenger.of(context).showSnackBar(

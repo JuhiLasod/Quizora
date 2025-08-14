@@ -8,3 +8,4 @@ class question(BaseModel):
 class Quizes(BaseModel):
     title: str
     Questions: List[question] 
+    total: int

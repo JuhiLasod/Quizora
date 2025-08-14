@@ -1,17 +1,35 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'Home.dart';
+
 class Score extends StatefulWidget
 {
   final dynamic score;
   final dynamic title;
-  const Score({super.key ,required this.title ,required this.score});
+  final dynamic total;
+  const Score({super.key ,required this.title ,required this.score, required this.total});
   @override
   State<Score> createState()=> _ScoreState();
 }
 
 class _ScoreState extends State<Score>
 {
-  @override
+  
+  void totalScore ()async{
+    final res= await http.post(Uri.parse("http://10.0.2.2/8000/quiz/fetch-total"),
+      headers: {'Content;Type': 'application/json'},
+      body: jsonEncode({'title': widget.title})
+    );
+    print(res.body);
+  }
+  @override 
+  void initState()
+  {
+    super.initState();
+    totalScore();
+  }
   Widget build (BuildContext context)
   {
     final screenHeight= MediaQuery.of(context).size.height;
@@ -43,7 +61,7 @@ class _ScoreState extends State<Score>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, screenHeight * 0.01),child: Text("Your Score", style: TextStyle(color: Color.fromARGB(255, 28, 91, 46),fontFamily: 'basic', fontSize: 20),)),
-                    Text("Your score is ${widget.score.toString()}"),
+                    Text("You scored ${widget.score.toString()} out of ${widget.total}"),
                     
             
                   ]

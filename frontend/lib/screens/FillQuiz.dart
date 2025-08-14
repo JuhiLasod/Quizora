@@ -17,9 +17,11 @@ class _FillQuizState extends State<FillQuiz> {
   final correctAnswers = <int, String>{};
   Map <int,String> answer={};
   Map<int, String> selectedOptions = {}; 
+  int total=0;
   int score=0;
   // List <String> asnwer=[];
   void fetchQues() async {
+    totalScore();
     print(widget.name);
     setState(() {
       score=0;
@@ -44,7 +46,19 @@ class _FillQuizState extends State<FillQuiz> {
     answer = correctAnswers;
   });
 }
-
+void totalScore ()async{
+    print("before sending req for total score");
+    final res= await http.get(Uri.parse("http://10.0.2.2:8000/quiz/fetch-total?title=${widget.title}"),
+      headers: {'Content-Type': 'application/json'},
+      // body: jsonEncode({'title': widget.title})
+    );
+    print("inside total score");
+    setState(() {
+      total=jsonDecode(res.body)['total'] as int;
+    });
+    print(total);
+  }
+  
 Future<void> scoring()async{
   score=0;
   for(int i=0;i<correctAnswers.length;i++)
@@ -62,7 +76,7 @@ Future<void> scoring()async{
   if(res.statusCode==200)
   {
     print("score added");
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Score(title: widget.title, score: score)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Score(title: widget.title, score: score, total: total)));
   }
   else
   {
@@ -76,6 +90,7 @@ Future<void> scoring()async{
     super.initState();
     print(widget.name);
     fetchQues();
+    // totalScore();
   }
 
   @override
