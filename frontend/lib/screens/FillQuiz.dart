@@ -27,7 +27,7 @@ class _FillQuizState extends State<FillQuiz> {
       score=0;
     });
     final res = await http.get(
-      Uri.parse('http://10.0.2.2:8000/quiz/fetch-ques?title=${widget.title}'),
+      Uri.parse('https://quizora-nces.onrender.com/quiz/fetch-ques?title=${widget.title}'),
       headers: {'Content-Type': 'application/json'},
     );
     
@@ -48,7 +48,7 @@ class _FillQuizState extends State<FillQuiz> {
 }
 void totalScore ()async{
     print("before sending req for total score");
-    final res= await http.get(Uri.parse("http://10.0.2.2:8000/quiz/fetch-total?title=${widget.title}"),
+    final res= await http.get(Uri.parse("https://quizora-nces.onrender.com/quiz/fetch-total?title=${widget.title}"),
       headers: {'Content-Type': 'application/json'},
       // body: jsonEncode({'title': widget.title})
     );
@@ -69,7 +69,7 @@ Future<void> scoring()async{
     }
   }
   print(score);
-  final res= await http.post(Uri.parse("http://10.0.2.2:8000/quiz/set-score"),
+  final res= await http.post(Uri.parse("https://quizora-nces.onrender.com/quiz/set-score"),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({'title': widget.title, 'name': widget.name, 'score': score})
   );

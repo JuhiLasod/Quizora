@@ -27,7 +27,7 @@ class _CreateQuizState extends State<CreateQuiz> {
       return;
     }
     final res = await http.post(
-      Uri.parse('http://10.0.2.2:8000/quiz/set-quiz'),
+      Uri.parse('https://quizora-nces.onrender.com/quiz/set-quiz'),
       headers: {'Content-type': 'application/json'},
       body: json.encode({
         'title': title,
