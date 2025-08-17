@@ -15,7 +15,7 @@ class _QuizDisplayState extends State<QuizDisplay>
   List<String> quizes=[];
   void fetchQuizes()async{
     
-    final res=await http.get(Uri.parse('http://10.0.2.2:8000/quiz/fetch-quizes'),
+    final res=await http.get(Uri.parse('https://quizora-nces.onrender.com/quiz/fetch-quizes'),
       headers: {'Content-Type': 'application/json'},
       
     );
