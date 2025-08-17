@@ -62,8 +62,6 @@ class _ScoreState extends State<Score>
                   children: [
                     Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, screenHeight * 0.01),child: Text("Your Score", style: TextStyle(color: Color.fromARGB(255, 28, 91, 46),fontFamily: 'basic', fontSize: 20),)),
                     Text("You scored ${widget.score.toString()} out of ${widget.total}"),
-                    
-            
                   ]
                 ),
               )
